@@ -30,8 +30,8 @@ bolt_offset = 10
 main_bolt_offset = 30.7/2
 hotend_rad=6.1
 step_rad=8
-step_depth=0.75
-x_offset=hotend_rad+(cutter_rad*2)
+step_depth=-.75
+x_offset=hotend_rad+(cutter_rad+0.7)
 
 border = Path(closed=True, side='out')
 border.add_point(PIncurve(pos + V(-x, -y), radius=corner_rad, direction = 'CW'))
@@ -44,8 +44,11 @@ border.add_point(PIncurve(pos + V(  x_offset,  y), direction = 'CW'))
 border.add_point(PIncurve(pos + V( x,  y), radius=corner_rad, direction = 'CW'))
 border.add_point(PIncurve(pos + V( x, -y), radius=corner_rad, direction = 'CW'))
 
-
-# border = Path(closed=True, side='out')
+offset = 8
+step = Path(closed=False, side='out', z1=step_depth)
+step.add_point(PIncurve(pos + V( -offset,  y), direction = 'CW'))
+step.add_point(POutcurve(pos + V(0,5.95) , radius=step_rad, direction = 'CW'))
+step.add_point(PIncurve(pos + V(  offset,  y), radius=-1.5,direction = 'CW'))# border = Path(closed=True, side='out')
 # border.add_point(PIncurve(pos + V( x,  y), radius=0, direction = 'CW'))
 # border.add_point(PIncurve(pos + V( x, -y), radius=0, direction = 'CW'))
 #
@@ -72,3 +75,5 @@ mount_1 = plane.add(
         cutter = cutter
     )
 )
+
+mount_1.add_path(step)
